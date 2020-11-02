@@ -1,0 +1,31 @@
+<center>
+  <h3>Parlamentar <%= @congressman.name %></h3><br/>
+  <%= image_tag image_url("http://www.camara.leg.br/internet/deputado/bandep/#{@congressman.external_id}.jpg"), style: 'width: 150px;'%><br/><br/>
+  <%= link_to 'Voltar', :back %><br/>
+
+<b>*Nota: Maior gasto está destacado em vermelho</b>
+  <div class="table-responsive">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Valor</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Estabelecimento</th>
+          <th scope="col">Emissão Nota Fiscal</th>
+          <th scope="col">Link Nota Fiscal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @spends.each do |spend| %>
+          <tr <%= "class=table-danger" if spend.liquid_value == @max_value%>>
+            <td><%= number_to_currency_br(spend.liquid_value) %></td>
+            <td><%= spend.description %></td>
+            <td><%= spend.provider %></td>
+            <td><%= spend.document_emission_date.strftime("%d/%m/%Y") %></td>
+            <td><%= link_to "Ver Nota Fiscal", "#{spend.document_url}" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</center>

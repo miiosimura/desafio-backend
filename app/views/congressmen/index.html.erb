@@ -1,0 +1,51 @@
+<ul class="nav justify-content-end">
+  <% if admin_signed_in? %>
+    <li class="nav-item">
+      <%= link_to 'Carregar CSV', dataset_path, :class => "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Sair', destroy_admin_session_path, :method => :delete, :class => "nav-link" %>
+    </li>
+  <% else %>
+    <li class="nav-item">
+      <%= link_to 'Área do administrador', admin_session_path, :class => "nav-link" %>
+    </li>
+  <% end %>
+</ul>
+<br/><br/>
+<center><h1>Ranking dos gastos dos Deputados de São Paulo</h1></center>
+<center>
+  <h5>
+    Aqui você pode conferir quanto os deputados do estado de São Paulo
+    estão gastando
+  </h5><br/>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Foto</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Partido</th>
+          <th scope="col">Ano dos gastos</th>
+          <th scope="col">Soma dos gastos</th>
+          <th scope="col">Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @congressmen.each do |congressman| %>
+          <% congressman.yearly_spends.each do |yearly_spend| %>
+            <tr>
+              <td><%= image_tag image_url("http://www.camara.leg.br/internet/deputado/bandep/#{congressman.external_id}.jpg"), style: 'width: 100px;'%></td>
+              <td><%= congressman.name %></td>
+              <td><%= congressman.political_party %></td>
+              <td><%= yearly_spend.year %></td>
+              <td><%= number_to_currency_br(yearly_spend.total_spend) %></td>
+              <td><%= link_to 'Ver gastos', congressman_path(congressman, year: yearly_spend.year) %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</center>

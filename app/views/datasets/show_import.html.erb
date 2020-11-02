@@ -1,0 +1,12 @@
+<center>
+<br/>
+<h2>Importar CSV</h2><br/>
+  Baixe o CSV com as informações dos gastos anuais <a href="https://dadosabertos.camara.leg.br/swagger/api.html#staticfile" target="_blank">aqui</a>
+  <br/><br/>
+  Baixado o CSV, faça o upload do arquivo aqui:
+  <%= form_tag dataset_import_path, multipart: true do %>
+    <%= file_field_tag :file %><br/><br/>
+    <%= submit_tag "Upload CSV" %>
+  <% end %>
+  <%= link_to 'Voltar', :back %><br/>
+</center>
